@@ -69,16 +69,16 @@ function selectSupplier(name) {
   lastSelectedSupplier = name;
 
   showScreen("scan");
+  updateScanTitle();
   resetWarnings();
   resetEditableState();
   clearAllFields();
-  updateSupplierBadge();
   setStatus("Bitte Dokument scannen");
   focusDoc();
 }
 
-function updateSupplierBadge() {
-  document.getElementById("supplierBadge").innerText = booking.supplier || "";
+function updateScanTitle() {
+  document.getElementById("scanTitle").innerText = booking.supplier || "Wareneingang";
 }
 
 function focusDoc() {
@@ -350,9 +350,10 @@ function closeSuccessScreen() {
   if (lastSelectedSupplier) {
     booking.supplier = lastSelectedSupplier;
     showScreen("scan");
+    updateScanTitle();
     resetBooking();
     booking.supplier = lastSelectedSupplier;
-    updateSupplierBadge();
+    updateScanTitle();
     setStatus("Bitte Dokument scannen");
     focusDoc();
   } else {
