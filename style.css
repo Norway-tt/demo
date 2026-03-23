@@ -27,32 +27,34 @@ body {
   background: var(--brand-green);
   color: var(--white);
   overscroll-behavior: none;
+  position: fixed;
+  inset: 0;
 }
 
 header {
   text-align: center;
-  padding: 10px 12px 4px;
+  padding: 6px 10px 2px;
+  height: 46px;
 }
 
 .logo {
-  height: 42px;
-  max-width: 180px;
+  height: 34px;
+  max-width: 160px;
   object-fit: contain;
 }
 
 main {
-  padding: 8px 14px 14px;
+  padding: 4px 10px 10px;
   max-width: 520px;
   margin: 0 auto;
-  height: calc(100dvh - 56px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  height: calc(100% - 46px);
+  overflow: hidden;
 }
 
 .screen {
   display: none;
   height: 100%;
+  overflow: hidden;
 }
 
 .screen.active {
@@ -61,18 +63,18 @@ main {
 
 h1 {
   text-align: center;
-  margin: 0 0 10px;
-  font-size: 22px;
-  line-height: 1.1;
+  margin: 0 0 6px;
+  font-size: 19px;
+  line-height: 1.05;
 }
 
 button {
   width: 100%;
-  padding: 13px 14px;
-  margin-bottom: 10px;
+  padding: 10px 12px;
+  margin-bottom: 7px;
   border-radius: 10px;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -84,26 +86,26 @@ button {
 
 label {
   display: block;
-  margin: 0 0 4px;
-  font-size: 12px;
+  margin: 0 0 3px;
+  font-size: 11px;
   opacity: 0.95;
 }
 
 .field-wrap {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 
 input {
   width: 100%;
-  min-height: 46px;
-  padding: 10px 44px 10px 12px;
-  border-radius: 9px;
+  min-height: 40px;
+  padding: 8px 38px 8px 10px;
+  border-radius: 8px;
   border: 2px solid transparent;
   outline: none;
   background: var(--field-bg);
   color: var(--field-text);
-  font-size: 15px;
+  font-size: 14px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
@@ -113,7 +115,7 @@ input::placeholder {
 
 input:focus {
   border-color: var(--brand-green-dark);
-  box-shadow: 0 0 0 3px rgba(8, 99, 50, 0.18);
+  box-shadow: 0 0 0 2px rgba(8, 99, 50, 0.18);
 }
 
 input[readonly] {
@@ -123,16 +125,16 @@ input[readonly] {
 .field-action {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: 6px;
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   margin: 0;
   padding: 0;
-  border-radius: 7px;
+  border-radius: 6px;
   background: transparent;
   color: var(--brand-green);
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   display: flex;
@@ -146,34 +148,34 @@ input[readonly] {
 
 .input-warning {
   border: 4px solid var(--warning-yellow) !important;
-  box-shadow: 0 0 0 4px var(--warning-yellow-glow) !important;
+  box-shadow: 0 0 0 3px var(--warning-yellow-glow) !important;
 }
 
 .action-confirm {
   color: var(--brand-green-dark);
-  font-size: 19px;
+  font-size: 16px;
 }
 
 .status {
   text-align: center;
-  margin-bottom: 8px;
-  font-size: 13px;
+  margin-bottom: 5px;
+  font-size: 12px;
   opacity: 0.98;
-  min-height: 16px;
+  min-height: 14px;
 }
 
 .supplier-badge {
   text-align: center;
-  margin-bottom: 8px;
-  font-size: 13px;
+  margin-bottom: 5px;
+  font-size: 12px;
   font-weight: 700;
   opacity: 0.95;
 }
 
 .footer {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .footer button {
@@ -183,15 +185,15 @@ input[readonly] {
 
 .dimension-card {
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 8px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 6px;
+  margin-bottom: 7px;
 }
 
 .triple-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 
 .mini-field {
@@ -199,9 +201,9 @@ input[readonly] {
 }
 
 .mini-label {
-  font-size: 11px;
+  font-size: 10px;
   opacity: 0.95;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .field-wrap-mini {
@@ -209,16 +211,16 @@ input[readonly] {
 }
 
 .field-wrap-mini input {
-  min-height: 42px;
-  padding: 8px 30px 8px 8px;
-  font-size: 14px;
+  min-height: 36px;
+  padding: 6px 24px 6px 6px;
+  font-size: 12px;
 }
 
 .field-wrap-mini .field-action {
-  right: 4px;
-  width: 24px;
-  height: 24px;
-  font-size: 14px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
 }
 
 .success-screen {
@@ -238,9 +240,9 @@ input[readonly] {
 }
 
 .success-circle {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 16px;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 12px;
   border-radius: 50%;
   border: 6px solid var(--warning-yellow);
   display: flex;
@@ -250,73 +252,12 @@ input[readonly] {
 
 .success-check {
   color: var(--warning-yellow);
-  font-size: 56px;
+  font-size: 46px;
   font-weight: 700;
   line-height: 1;
 }
 
 .success-text {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-}
-
-/* extra kompakt für kleine mobile screens */
-@media (max-height: 780px) {
-  header {
-    padding: 8px 10px 2px;
-  }
-
-  .logo {
-    height: 36px;
-  }
-
-  main {
-    padding: 6px 12px 12px;
-    height: calc(100dvh - 48px);
-  }
-
-  h1 {
-    font-size: 20px;
-    margin-bottom: 8px;
-  }
-
-  button {
-    padding: 11px 12px;
-    margin-bottom: 8px;
-    font-size: 15px;
-  }
-
-  .field-wrap {
-    margin-bottom: 8px;
-  }
-
-  input {
-    min-height: 42px;
-    font-size: 14px;
-    padding: 8px 40px 8px 10px;
-  }
-
-  .status,
-  .supplier-badge {
-    margin-bottom: 6px;
-    font-size: 12px;
-  }
-
-  .dimension-card {
-    padding: 6px;
-    margin-bottom: 8px;
-  }
-
-  .triple-grid {
-    gap: 6px;
-  }
-
-  .field-wrap-mini input {
-    min-height: 38px;
-    font-size: 13px;
-  }
-
-  .footer {
-    margin-top: 8px;
-  }
 }
