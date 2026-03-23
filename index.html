@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+
+  <title>Hager Papprint Demo</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0b7a3d" />
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo.png" class="logo" alt="Hager Papprint Logo" />
+  </header>
+
+  <main>
+    <!-- START SCREEN -->
+    <section id="screen-start" class="screen active">
+      <h1>Prozess wählen</h1>
+
+      <button class="primary" type="button" onclick="showScreen('supplier')">
+        Wareneingang
+      </button>
+
+      <button class="primary" type="button">
+        Umbuchung
+      </button>
+
+      <button class="primary" type="button">
+        Warenausgang
+      </button>
+    </section>
+
+    <!-- SUPPLIER SCREEN -->
+    <section id="screen-supplier" class="screen">
+      <h1>Zulieferer wählen</h1>
+
+      <button class="primary" type="button" onclick="selectSupplier('Regler Systems')">
+        Regler Systems
+      </button>
+
+      <button class="primary" type="button" onclick="selectSupplier('Weig')">
+        Weig
+      </button>
+
+      <button class="primary" type="button" onclick="selectSupplier('Tambrite')">
+        Tambrite
+      </button>
+
+      <button class="primary" type="button" onclick="selectSupplier('CrownBoard')">
+        CrownBoard
+      </button>
+
+      <div class="footer">
+        <button class="primary" type="button" onclick="goBackToStart()">Zurück</button>
+      </div>
+    </section>
+
+    <!-- SCAN SCREEN -->
+    <section id="screen-scan" class="screen">
+      <h1>Wareneingang</h1>
+
+      <div class="supplier-badge" id="supplierBadge"></div>
+      <div class="status" id="status">Bitte Dokument scannen</div>
+
+      <label for="docBarcode">Dokument Barcode</label>
+      <div class="field-wrap">
+        <input
+          id="docBarcode"
+          class="required-field"
+          placeholder="Barcode scannen"
+          autocomplete="off"
+          onchange="handleDocumentScan(this.value)"
+        />
+        <button
+          class="field-action"
+          type="button"
+          aria-label="Dokument Barcode zurücksetzen"
+          onclick="resetField('docBarcode')"
+        >
+          ↻
+        </button>
+      </div>
+
+      <label for="pidBarcode">PID Code</label>
+      <div class="field-wrap">
+        <input
+          id="pidBarcode"
+          class="required-field"
+          placeholder="PID scannen"
+          autocomplete="off"
+          onchange="handlePidScan(this.value)"
+        />
+        <button
+          class="field-action"
+          type="button"
+          aria-label="PID Code zurücksetzen"
+          onclick="resetField('pidBarcode')"
+        >
+          ↻
+        </button>
+      </div>
+
+      <label for="zeitstempel">Zeitstempel</label>
+      <div class="field-wrap">
+        <input id="zeitstempel" placeholder="Wird automatisch gesetzt" readonly />
+      </div>
+
+      <label>Abmessungen (mm)</label>
+      <div class="dimension-card">
+        <div class="triple-grid">
+          <div class="mini-field">
+            <div class="mini-label">Höhe</div>
+            <div class="field-wrap field-wrap-mini">
+              <input id="hoehe" class="editable-field" />
+              <button
+                id="action-hoehe"
+                class="field-action"
+                type="button"
+                aria-label="Höhe bearbeiten"
+                onclick="toggleEditAction('hoehe')"
+              >
+                ✎
+              </button>
+            </div>
+          </div>
+
+          <div class="mini-field">
+            <div class="mini-label">Länge</div>
+            <div class="field-wrap field-wrap-mini">
+              <input id="laenge" class="editable-field" />
+              <button
+                id="action-laenge"
+                class="field-action"
+                type="button"
+                aria-label="Länge bearbeiten"
+                onclick="toggleEditAction('laenge')"
+              >
+                ✎
+              </button>
+            </div>
+          </div>
+
+          <div class="mini-field">
+            <div class="mini-label">Breite</div>
+            <div class="field-wrap field-wrap-mini">
+              <input id="breite" class="editable-field" />
+              <button
+                id="action-breite"
+                class="field-action"
+                type="button"
+                aria-label="Breite bearbeiten"
+                onclick="toggleEditAction('breite')"
+              >
+                ✎
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <label for="gewicht">Gewicht (kg)</label>
+      <div class="field-wrap">
+        <input id="gewicht" class="editable-field" />
+        <button
+          id="action-gewicht"
+          class="field-action"
+          type="button"
+          aria-label="Gewicht bearbeiten"
+          onclick="toggleEditAction('gewicht')"
+        >
+          ✎
+        </button>
+      </div>
+
+      <div class="footer">
+        <button class="primary" type="button" onclick="goBackToSupplier()">Zurück</button>
+        <button class="primary" type="button" onclick="book()">Buchen</button>
+      </div>
+    </section>
+
+    <!-- SUCCESS SCREEN -->
+    <section id="screen-success" class="screen success-screen" onclick="closeSuccessScreen()">
+      <div class="success-content">
+        <div class="success-circle">
+          <span class="success-check">✓</span>
+        </div>
+        <div class="success-text">Buchung erfolgreich</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
