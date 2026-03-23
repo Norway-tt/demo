@@ -84,13 +84,13 @@ function updateSupplierBadge() {
 function focusDoc() {
   setTimeout(() => {
     document.getElementById("docBarcode").focus();
-  }, 250);
+  }, 180);
 }
 
 function focusPid() {
   setTimeout(() => {
     document.getElementById("pidBarcode").focus();
-  }, 250);
+  }, 180);
 }
 
 function handleDocumentScan(code) {
