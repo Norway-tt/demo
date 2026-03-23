@@ -1,263 +1,421 @@
-:root {
-  --brand-green: #0b7a3d;
-  --brand-green-dark: #086332;
-  --white: #ffffff;
-  --field-bg: #ffffff;
-  --field-text: #1b1b1b;
-  --field-placeholder: #6f6f6f;
-  --warning-yellow: #ffea00;
-  --warning-yellow-glow: rgba(255, 234, 0, 0.28);
+let booking = {
+  supplier: "",
+  documentBarcode: "",
+  pidBarcode: "",
+  zeitstempel: "",
+  hoehe: "",
+  laenge: "",
+  breite: "",
+  gewicht: ""
+};
+
+const supplierDemoData = {
+  "Regler Systems": {
+    hoehe: "1200",
+    laenge: "800",
+    breite: "600",
+    gewicht: "450"
+  },
+  "Weig": {
+    hoehe: "1350",
+    laenge: "900",
+    breite: "650",
+    gewicht: "520"
+  },
+  "Tambrite": {
+    hoehe: "980",
+    laenge: "720",
+    breite: "540",
+    gewicht: "385"
+  },
+  "CrownBoard": {
+    hoehe: "1450",
+    laenge: "1000",
+    breite: "700",
+    gewicht: "610"
+  }
+};
+
+const editableFields = ["hoehe", "laenge", "breite", "gewicht"];
+const pendingEdits = {
+  hoehe: false,
+  laenge: false,
+  breite: false,
+  gewicht: false
+};
+
+let successTimeout = null;
+let lastSelectedSupplier = "";
+
+function showScreen(screen) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+  document.getElementById("screen-" + screen).classList.add("active");
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+function goBackToStart() {
+  resetBooking();
+  booking.supplier = "";
+  lastSelectedSupplier = "";
+  showScreen("start");
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
+function goBackToSupplier() {
+  resetBooking();
+  showScreen("supplier");
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: var(--brand-green);
-  color: var(--white);
-  overscroll-behavior: none;
-  position: fixed;
-  inset: 0;
+function selectSupplier(name) {
+  booking.supplier = name;
+  lastSelectedSupplier = name;
+
+  showScreen("scan");
+  resetWarnings();
+  resetEditableState();
+  clearAllFields();
+  updateSupplierBadge();
+  setStatus("Bitte Dokument scannen");
+  focusDoc();
 }
 
-header {
-  text-align: center;
-  padding: 6px 10px 2px;
-  height: 46px;
+function updateSupplierBadge() {
+  document.getElementById("supplierBadge").innerText = booking.supplier || "";
 }
 
-.logo {
-  height: 34px;
-  max-width: 160px;
-  object-fit: contain;
+function focusDoc() {
+  setTimeout(() => {
+    document.getElementById("docBarcode").focus();
+  }, 180);
 }
 
-main {
-  padding: 4px 10px 10px;
-  max-width: 520px;
-  margin: 0 auto;
-  height: calc(100% - 46px);
-  overflow: hidden;
+function focusPid() {
+  setTimeout(() => {
+    document.getElementById("pidBarcode").focus();
+  }, 180);
 }
 
-.screen {
-  display: none;
-  height: 100%;
-  overflow: hidden;
+function handleDocumentScan(code) {
+  code = code.trim();
+  clearWarning("docBarcode");
+
+  if (!code) {
+    setWarning("docBarcode");
+    setStatus("Bitte Dokument Barcode scannen.");
+    focusDoc();
+    return;
+  }
+
+  booking.documentBarcode = code;
+  booking.zeitstempel = getCurrentTimestamp();
+
+  const supplierValues = supplierDemoData[booking.supplier] || {
+    hoehe: "1000",
+    laenge: "700",
+    breite: "500",
+    gewicht: "400"
+  };
+
+  booking.hoehe = supplierValues.hoehe;
+  booking.laenge = supplierValues.laenge;
+  booking.breite = supplierValues.breite;
+  booking.gewicht = supplierValues.gewicht;
+
+  fillFields();
+  resetEditableState();
+  setStatus("Dokument erkannt. PID scannen.");
+  focusPid();
 }
 
-.screen.active {
-  display: block;
+function handlePidScan(code) {
+  code = code.trim();
+  clearWarning("pidBarcode");
+
+  if (!code) {
+    setWarning("pidBarcode");
+    setStatus("Bitte PID scannen.");
+    focusPid();
+    return;
+  }
+
+  if (!isValidPid(code)) {
+    setWarning("pidBarcode");
+    setStatus("Kein gültiger PID Code.");
+    focusPid();
+    return;
+  }
+
+  booking.pidBarcode = code;
+  setStatus("PID erfasst.");
 }
 
-h1 {
-  text-align: center;
-  margin: 0 0 6px;
-  font-size: 19px;
-  line-height: 1.05;
+function isValidPid(code) {
+  return code.toUpperCase().startsWith("PID");
 }
 
-button {
-  width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 7px;
-  border-radius: 10px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
+function fillFields() {
+  document.getElementById("zeitstempel").value = booking.zeitstempel;
+  document.getElementById("hoehe").value = booking.hoehe;
+  document.getElementById("laenge").value = booking.laenge;
+  document.getElementById("breite").value = booking.breite;
+  document.getElementById("gewicht").value = booking.gewicht;
+
+  editableFields.forEach((field) => {
+    document.getElementById(field).setAttribute("readonly", true);
+    clearWarning(field);
+  });
 }
 
-.primary {
-  background: var(--white);
-  color: var(--brand-green);
-  font-weight: 700;
+function toggleEditAction(field) {
+  if (!pendingEdits[field]) {
+    enableEdit(field);
+  } else {
+    confirmEdit(field);
+  }
 }
 
-label {
-  display: block;
-  margin: 0 0 3px;
-  font-size: 11px;
-  opacity: 0.95;
+function enableEdit(field) {
+  const input = document.getElementById(field);
+  const action = document.getElementById("action-" + field);
+
+  input.removeAttribute("readonly");
+  pendingEdits[field] = true;
+  action.innerText = "✓";
+  action.classList.add("action-confirm");
+  clearWarning(field);
+  input.focus();
 }
 
-.field-wrap {
-  position: relative;
-  margin-bottom: 7px;
+function confirmEdit(field) {
+  const input = document.getElementById(field);
+  const action = document.getElementById("action-" + field);
+  const value = input.value.trim();
+
+  if (!value) {
+    setWarning(field);
+    setStatus("Bitte die geänderte Eingabe bestätigen.");
+    input.focus();
+    return;
+  }
+
+  booking[field] = value;
+  input.value = value;
+  input.setAttribute("readonly", true);
+  pendingEdits[field] = false;
+  action.innerText = "✎";
+  action.classList.remove("action-confirm");
+  clearWarning(field);
+  setStatus("Änderung bestätigt.");
 }
 
-input {
-  width: 100%;
-  min-height: 40px;
-  padding: 8px 38px 8px 10px;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  outline: none;
-  background: var(--field-bg);
-  color: var(--field-text);
-  font-size: 14px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+function resetField(id) {
+  const el = document.getElementById(id);
+  el.value = "";
+  clearWarning(id);
+
+  if (id === "docBarcode") {
+    booking.documentBarcode = "";
+    booking.zeitstempel = "";
+    document.getElementById("zeitstempel").value = "";
+    clearDimensionFields();
+    resetEditableState();
+    setStatus("Bitte Dokument scannen");
+  }
+
+  if (id === "pidBarcode") {
+    booking.pidBarcode = "";
+    setStatus("Bitte PID scannen");
+  }
+
+  el.focus();
 }
 
-input::placeholder {
-  color: var(--field-placeholder);
+function setStatus(text) {
+  document.getElementById("status").innerText = text;
 }
 
-input:focus {
-  border-color: var(--brand-green-dark);
-  box-shadow: 0 0 0 2px rgba(8, 99, 50, 0.18);
+function setWarning(id) {
+  document.getElementById(id).classList.add("input-warning");
 }
 
-input[readonly] {
-  opacity: 0.92;
+function clearWarning(id) {
+  document.getElementById(id).classList.remove("input-warning");
 }
 
-.field-action {
-  position: absolute;
-  top: 50%;
-  right: 6px;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  margin: 0;
-  padding: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--brand-green);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+function resetWarnings() {
+  clearWarning("docBarcode");
+  clearWarning("pidBarcode");
+  editableFields.forEach((field) => clearWarning(field));
 }
 
-.field-action:active {
-  transform: translateY(-50%) scale(0.96);
+function validateRequiredFields() {
+  let isValid = true;
+
+  const docBarcode = document.getElementById("docBarcode").value.trim();
+  const pidBarcode = document.getElementById("pidBarcode").value.trim();
+
+  clearWarning("docBarcode");
+  clearWarning("pidBarcode");
+
+  if (!docBarcode) {
+    setWarning("docBarcode");
+    isValid = false;
+  }
+
+  if (!pidBarcode) {
+    setWarning("pidBarcode");
+    isValid = false;
+  } else if (!isValidPid(pidBarcode)) {
+    setWarning("pidBarcode");
+    setStatus("Kein gültiger PID Code.");
+    focusPid();
+    return false;
+  }
+
+  if (!isValid) {
+    if (!docBarcode) {
+      setStatus("Bitte zuerst den Dokument Barcode scannen.");
+      focusDoc();
+    } else {
+      setStatus("Bitte den PID Code scannen.");
+      focusPid();
+    }
+  }
+
+  return isValid;
 }
 
-.input-warning {
-  border: 4px solid var(--warning-yellow) !important;
-  box-shadow: 0 0 0 3px var(--warning-yellow-glow) !important;
+function validatePendingEdits() {
+  let hasPendingEdit = false;
+  let firstPendingField = null;
+
+  editableFields.forEach((field) => {
+    clearWarning(field);
+
+    if (pendingEdits[field]) {
+      hasPendingEdit = true;
+      setWarning(field);
+
+      if (!firstPendingField) {
+        firstPendingField = field;
+      }
+    }
+  });
+
+  if (hasPendingEdit && firstPendingField) {
+    setStatus("Bitte offene Änderungen mit dem Haken bestätigen.");
+    document.getElementById(firstPendingField).focus();
+  }
+
+  return !hasPendingEdit;
 }
 
-.action-confirm {
-  color: var(--brand-green-dark);
-  font-size: 16px;
+function book() {
+  if (!validateRequiredFields()) {
+    return;
+  }
+
+  if (!validatePendingEdits()) {
+    return;
+  }
+
+  booking.documentBarcode = document.getElementById("docBarcode").value.trim();
+  booking.pidBarcode = document.getElementById("pidBarcode").value.trim();
+  booking.zeitstempel = document.getElementById("zeitstempel").value.trim();
+  booking.hoehe = document.getElementById("hoehe").value.trim();
+  booking.laenge = document.getElementById("laenge").value.trim();
+  booking.breite = document.getElementById("breite").value.trim();
+  booking.gewicht = document.getElementById("gewicht").value.trim();
+
+  console.log("DEMO BUCHUNG", booking);
+  showSuccessScreen();
 }
 
-.status {
-  text-align: center;
-  margin-bottom: 5px;
-  font-size: 12px;
-  opacity: 0.98;
-  min-height: 14px;
+function showSuccessScreen() {
+  showScreen("success");
+
+  if (successTimeout) {
+    clearTimeout(successTimeout);
+  }
+
+  successTimeout = setTimeout(() => {
+    closeSuccessScreen();
+  }, 5000);
 }
 
-.supplier-badge {
-  text-align: center;
-  margin-bottom: 5px;
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0.95;
+function closeSuccessScreen() {
+  if (successTimeout) {
+    clearTimeout(successTimeout);
+    successTimeout = null;
+  }
+
+  if (lastSelectedSupplier) {
+    booking.supplier = lastSelectedSupplier;
+    showScreen("scan");
+    resetBooking();
+    booking.supplier = lastSelectedSupplier;
+    updateSupplierBadge();
+    setStatus("Bitte Dokument scannen");
+    focusDoc();
+  } else {
+    showScreen("supplier");
+  }
 }
 
-.footer {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
+function resetEditableState() {
+  editableFields.forEach((field) => {
+    const input = document.getElementById(field);
+    const action = document.getElementById("action-" + field);
+
+    input.setAttribute("readonly", true);
+    pendingEdits[field] = false;
+    action.innerText = "✎";
+    action.classList.remove("action-confirm");
+    clearWarning(field);
+  });
 }
 
-.footer button {
-  flex: 1;
-  margin-bottom: 0;
+function clearDimensionFields() {
+  editableFields.forEach((field) => {
+    document.getElementById(field).value = "";
+    booking[field] = "";
+    clearWarning(field);
+  });
 }
 
-.dimension-card {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 6px;
-  margin-bottom: 7px;
+function clearAllFields() {
+  document.getElementById("docBarcode").value = "";
+  document.getElementById("pidBarcode").value = "";
+  document.getElementById("zeitstempel").value = "";
+  clearDimensionFields();
 }
 
-.triple-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+function resetBooking() {
+  booking.documentBarcode = "";
+  booking.pidBarcode = "";
+  booking.zeitstempel = "";
+  booking.hoehe = "";
+  booking.laenge = "";
+  booking.breite = "";
+  booking.gewicht = "";
+
+  document.getElementById("docBarcode").value = "";
+  document.getElementById("pidBarcode").value = "";
+  document.getElementById("zeitstempel").value = "";
+
+  clearWarning("docBarcode");
+  clearWarning("pidBarcode");
+
+  clearDimensionFields();
+  resetEditableState();
 }
 
-.mini-field {
-  min-width: 0;
-}
+function getCurrentTimestamp() {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
 
-.mini-label {
-  font-size: 10px;
-  opacity: 0.95;
-  margin-bottom: 3px;
-}
-
-.field-wrap-mini {
-  margin-bottom: 0;
-}
-
-.field-wrap-mini input {
-  min-height: 36px;
-  padding: 6px 24px 6px 6px;
-  font-size: 12px;
-}
-
-.field-wrap-mini .field-action {
-  right: 3px;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
-}
-
-.success-screen {
-  height: 100%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.success-screen.active {
-  display: flex;
-}
-
-.success-content {
-  width: 100%;
-  text-align: center;
-}
-
-.success-circle {
-  width: 92px;
-  height: 92px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  border: 6px solid var(--warning-yellow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.success-check {
-  color: var(--warning-yellow);
-  font-size: 46px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.success-text {
-  font-size: 18px;
-  font-weight: 700;
+  return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
 }
