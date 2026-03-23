@@ -18,7 +18,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -30,24 +31,28 @@ body {
 
 header {
   text-align: center;
-  padding: 20px 16px 10px;
+  padding: 10px 12px 4px;
 }
 
 .logo {
-  height: 60px;
-  max-width: 220px;
+  height: 42px;
+  max-width: 180px;
   object-fit: contain;
 }
 
 main {
-  padding: 20px;
+  padding: 8px 14px 14px;
   max-width: 520px;
   margin: 0 auto;
-  min-height: calc(100vh - 90px);
+  height: calc(100dvh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .screen {
   display: none;
+  height: 100%;
 }
 
 .screen.active {
@@ -56,18 +61,18 @@ main {
 
 h1 {
   text-align: center;
-  margin: 0 0 28px;
-  font-size: 28px;
-  line-height: 1.2;
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.1;
 }
 
 button {
   width: 100%;
-  padding: 18px;
-  margin-bottom: 15px;
-  border-radius: 12px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  border-radius: 10px;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -79,26 +84,26 @@ button {
 
 label {
   display: block;
-  margin: 0 0 6px;
-  font-size: 14px;
+  margin: 0 0 4px;
+  font-size: 12px;
   opacity: 0.95;
 }
 
 .field-wrap {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 input {
   width: 100%;
-  min-height: 58px;
-  padding: 16px 56px 16px 16px;
-  border-radius: 10px;
+  min-height: 46px;
+  padding: 10px 44px 10px 12px;
+  border-radius: 9px;
   border: 2px solid transparent;
   outline: none;
   background: var(--field-bg);
   color: var(--field-text);
-  font-size: 18px;
+  font-size: 15px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
@@ -118,16 +123,16 @@ input[readonly] {
 .field-action {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 8px;
   transform: translateY(-50%);
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
   margin: 0;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 7px;
   background: transparent;
   color: var(--brand-green);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1;
   display: flex;
@@ -146,29 +151,29 @@ input[readonly] {
 
 .action-confirm {
   color: var(--brand-green-dark);
-  font-size: 22px;
+  font-size: 19px;
 }
 
 .status {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
   opacity: 0.98;
-  min-height: 20px;
+  min-height: 16px;
 }
 
 .supplier-badge {
   text-align: center;
-  margin-bottom: 16px;
-  font-size: 15px;
+  margin-bottom: 8px;
+  font-size: 13px;
   font-weight: 700;
   opacity: 0.95;
 }
 
 .footer {
   display: flex;
-  gap: 10px;
-  margin-top: 25px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .footer button {
@@ -178,15 +183,15 @@ input[readonly] {
 
 .dimension-card {
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 15px;
+  border-radius: 12px;
+  padding: 8px;
+  margin-bottom: 10px;
 }
 
 .triple-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .mini-field {
@@ -194,9 +199,9 @@ input[readonly] {
 }
 
 .mini-label {
-  font-size: 13px;
+  font-size: 11px;
   opacity: 0.95;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .field-wrap-mini {
@@ -204,20 +209,20 @@ input[readonly] {
 }
 
 .field-wrap-mini input {
-  min-height: 54px;
-  padding: 12px 40px 12px 10px;
-  font-size: 16px;
+  min-height: 42px;
+  padding: 8px 30px 8px 8px;
+  font-size: 14px;
 }
 
 .field-wrap-mini .field-action {
-  right: 6px;
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
 }
 
 .success-screen {
-  min-height: calc(100vh - 140px);
+  height: 100%;
   display: none;
   align-items: center;
   justify-content: center;
@@ -233,11 +238,11 @@ input[readonly] {
 }
 
 .success-circle {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 22px;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 16px;
   border-radius: 50%;
-  border: 8px solid var(--warning-yellow);
+  border: 6px solid var(--warning-yellow);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,12 +250,73 @@ input[readonly] {
 
 .success-check {
   color: var(--warning-yellow);
-  font-size: 72px;
+  font-size: 56px;
   font-weight: 700;
   line-height: 1;
 }
 
 .success-text {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
+}
+
+/* extra kompakt für kleine mobile screens */
+@media (max-height: 780px) {
+  header {
+    padding: 8px 10px 2px;
+  }
+
+  .logo {
+    height: 36px;
+  }
+
+  main {
+    padding: 6px 12px 12px;
+    height: calc(100dvh - 48px);
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  button {
+    padding: 11px 12px;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .field-wrap {
+    margin-bottom: 8px;
+  }
+
+  input {
+    min-height: 42px;
+    font-size: 14px;
+    padding: 8px 40px 8px 10px;
+  }
+
+  .status,
+  .supplier-badge {
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  .dimension-card {
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+
+  .triple-grid {
+    gap: 6px;
+  }
+
+  .field-wrap-mini input {
+    min-height: 38px;
+    font-size: 13px;
+  }
+
+  .footer {
+    margin-top: 8px;
+  }
 }
