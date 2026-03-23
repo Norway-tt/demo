@@ -35,7 +35,7 @@ body {
   height: 100svh;
   height: 100dvh;
   display: grid;
-  grid-template-rows: 52px 1fr;
+  grid-template-rows: 68px 1fr;
   overflow: hidden;
 }
 
@@ -43,20 +43,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 10px 2px;
+  padding: 10px 12px 4px;
 }
 
 .logo {
-  height: 34px;
-  max-width: 160px;
+  height: 44px;
+  max-width: 190px;
   object-fit: contain;
 }
 
 .app-main {
   min-height: 0;
   overflow: hidden;
-  padding: 4px 10px 10px;
-  max-width: 520px;
+  padding: 8px 14px 12px;
+  max-width: 560px;
   width: 100%;
   margin: 0 auto;
 }
@@ -74,24 +74,24 @@ body {
 
 h1 {
   text-align: center;
-  margin: 0 0 6px;
-  font-size: 19px;
-  line-height: 1.05;
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 1.08;
   flex-shrink: 0;
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
 }
 
 button {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
+  padding: 14px 14px;
+  border-radius: 14px;
   border: none;
-  font-size: 15px;
+  font-size: 18px;
   cursor: pointer;
 }
 
@@ -103,8 +103,8 @@ button {
 
 label {
   display: block;
-  margin: 0 0 3px;
-  font-size: 11px;
+  margin: 0 0 5px;
+  font-size: 14px;
   opacity: 0.95;
 }
 
@@ -118,14 +118,14 @@ label {
 
 input {
   width: 100%;
-  min-height: 40px;
-  padding: 8px 38px 8px 10px;
-  border-radius: 8px;
+  min-height: 56px;
+  padding: 12px 48px 12px 14px;
+  border-radius: 14px;
   border: 2px solid transparent;
   outline: none;
   background: var(--field-bg);
   color: var(--field-text);
-  font-size: 14px;
+  font-size: 17px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -135,7 +135,7 @@ input::placeholder {
 
 input:focus {
   border-color: var(--brand-green-dark);
-  box-shadow: 0 0 0 2px rgba(8, 99, 50, 0.18);
+  box-shadow: 0 0 0 3px rgba(8, 99, 50, 0.18);
 }
 
 input[readonly] {
@@ -145,15 +145,15 @@ input[readonly] {
 .field-action {
   position: absolute;
   top: 50%;
-  right: 6px;
+  right: 8px;
   transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   padding: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
   color: var(--brand-green);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
   display: flex;
@@ -172,7 +172,7 @@ input[readonly] {
 
 .action-confirm {
   color: var(--brand-green-dark);
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .top-meta {
@@ -182,50 +182,52 @@ input[readonly] {
 .supplier-badge {
   text-align: center;
   margin-bottom: 4px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   opacity: 0.95;
-  min-height: 14px;
+  min-height: 18px;
 }
 
 .status {
   text-align: center;
-  margin-bottom: 5px;
-  font-size: 12px;
+  margin-bottom: 8px;
+  font-size: 15px;
   opacity: 0.98;
-  min-height: 14px;
+  min-height: 18px;
 }
 
 .form-area {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   min-height: 0;
   flex: 1;
 }
 
 .footer {
   display: flex;
-  gap: 6px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 6px;
+  padding-top: 10px;
   flex-shrink: 0;
 }
 
 .footer button {
   flex: 1;
+  min-height: 56px;
+  font-size: 18px;
 }
 
 .dimension-card {
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 6px;
+  border-radius: 14px;
+  padding: 8px;
 }
 
 .triple-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
 .mini-field {
@@ -233,25 +235,25 @@ input[readonly] {
 }
 
 .mini-label {
-  font-size: 10px;
+  font-size: 12px;
   opacity: 0.95;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .field-wrap-mini input {
-  min-height: 36px;
-  padding: 6px 24px 6px 6px;
-  font-size: 12px;
+  min-height: 48px;
+  padding: 8px 28px 8px 8px;
+  font-size: 14px;
+  border-radius: 12px;
 }
 
 .field-wrap-mini .field-action {
-  right: 3px;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
 }
 
-/* Start + Supplier */
 .screen-start,
 .screen-supplier {
   justify-content: center;
@@ -259,15 +261,13 @@ input[readonly] {
 
 .screen-start .footer,
 .screen-supplier .footer {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
-/* Scan */
 .screen-scan {
   justify-content: flex-start;
 }
 
-/* Success */
 .success-screen {
   justify-content: center;
   align-items: center;
@@ -283,79 +283,73 @@ input[readonly] {
 }
 
 .success-circle {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  border: 6px solid var(--warning-yellow);
+  border: 8px solid var(--warning-yellow);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .success-check {
   color: var(--warning-yellow);
-  font-size: 56px;
+  font-size: 62px;
   font-weight: 700;
   line-height: 1;
 }
 
 .success-text {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
 }
 
-@media (max-height: 780px) {
+@media (max-height: 820px) {
   .app-shell {
-    grid-template-rows: 46px 1fr;
-  }
-
-  .app-header {
-    padding: 4px 8px 2px;
+    grid-template-rows: 60px 1fr;
   }
 
   .logo {
-    height: 30px;
+    height: 38px;
   }
 
   .app-main {
-    padding: 3px 8px 8px;
+    padding: 6px 12px 10px;
   }
 
   h1 {
-    font-size: 17px;
-    margin-bottom: 5px;
+    font-size: 20px;
+    margin-bottom: 6px;
   }
 
-  button {
-    padding: 9px 10px;
+  .supplier-badge,
+  .status {
     font-size: 14px;
   }
 
-  .stack {
-    gap: 6px;
-  }
-
-  input {
-    min-height: 38px;
+  label {
     font-size: 13px;
   }
 
+  input {
+    min-height: 50px;
+    font-size: 16px;
+  }
+
+  .field-action {
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
+
   .field-wrap-mini input {
-    min-height: 34px;
-    font-size: 11px;
+    min-height: 44px;
+    font-size: 13px;
   }
 
-  .success-circle {
-    width: 96px;
-    height: 96px;
-  }
-
-  .success-check {
-    font-size: 48px;
-  }
-
-  .success-text {
-    font-size: 18px;
+  .footer button {
+    min-height: 52px;
+    font-size: 17px;
   }
 }
