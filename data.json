@@ -1,0 +1,48 @@
+{
+  "suppliers": [
+    {
+      "supplier": "Regler Systems",
+      "documentBarcode": "123",
+      "defaultPid": "PID123",
+      "sheets": "1690",
+      "laenge": "1200",
+      "breite": "800",
+      "nettoGewicht": "450",
+      "bruttoGewicht": "480",
+      "palettenNummer": "1/1"
+    },
+    {
+      "supplier": "Weig",
+      "documentBarcode": "456",
+      "defaultPid": "PID456",
+      "sheets": "1420",
+      "laenge": "1350",
+      "breite": "900",
+      "nettoGewicht": "520",
+      "bruttoGewicht": "555",
+      "palettenNummer": "2/4"
+    },
+    {
+      "supplier": "Tambrite",
+      "documentBarcode": "789",
+      "defaultPid": "PID789",
+      "sheets": "1580",
+      "laenge": "980",
+      "breite": "720",
+      "nettoGewicht": "385",
+      "bruttoGewicht": "412",
+      "palettenNummer": "1/3"
+    },
+    {
+      "supplier": "CrownBoard",
+      "documentBarcode": "101",
+      "defaultPid": "PID101",
+      "sheets": "1880",
+      "laenge": "1450",
+      "breite": "1000",
+      "nettoGewicht": "610",
+      "bruttoGewicht": "648",
+      "palettenNummer": "3/5"
+    }
+  ]
+}

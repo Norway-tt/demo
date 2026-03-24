@@ -2,10 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Hager Papprint Demo</title>
 
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -17,80 +14,71 @@
 </head>
 <body>
   <div class="app-shell">
-    <header class="app-header">
-      <img src="logo.png" class="logo" alt="Hager Papprint Logo" />
+    <header class="app-header" id="appHeader">
+      <div class="header-spacer"></div>
+
+      <div class="header-logo-wrap">
+        <img src="logo.png" class="logo" alt="Hager Papprint Logo" />
+      </div>
+
+      <button
+        id="menuButton"
+        class="menu-button"
+        type="button"
+        aria-label="Menü öffnen"
+        onclick="toggleMenu()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
 
     <main class="app-main">
-      <!-- START SCREEN -->
-      <section id="screen-start" class="screen active screen-start">
+      <!-- SPLASH -->
+      <section id="screen-splash" class="screen active splash-screen">
         <div class="screen-bg">
-          <img src="element.png" class="corner-visual" alt="" />
+          <img src="element.png" class="corner-visual splash-corner" alt="" />
         </div>
 
-        <div class="screen-content">
-          <h1>Prozess wählen</h1>
-
-          <div class="stack">
-            <button class="primary" type="button" onclick="showScreen('supplier')">
-              Wareneingang
-            </button>
-
-            <button class="primary" type="button">
-              Umbuchung
-            </button>
-
-            <button class="primary" type="button">
-              Warenausgang
-            </button>
-          </div>
+        <div class="screen-content splash-content">
+          <img src="logo.png" class="splash-logo" alt="Hager Papprint Logo" />
         </div>
       </section>
 
-      <!-- SUPPLIER SCREEN -->
-      <section id="screen-supplier" class="screen screen-supplier">
+      <!-- FULLSCREEN MENU -->
+      <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()">
+        <div class="menu-fullscreen" onclick="event.stopPropagation()">
+          <div class="menu-fullscreen-header">
+            <div>Menü</div>
+            <button class="menu-close" type="button" onclick="closeMenu()">✕</button>
+          </div>
+
+          <button class="menu-item" type="button" onclick="switchProcess('wareneingang')">
+            Wareneingang
+          </button>
+
+          <button class="menu-item" type="button" onclick="switchProcess('umbuchung')">
+            Umbuchung
+          </button>
+
+          <button class="menu-item disabled" type="button" disabled>
+            Warenausgang
+          </button>
+        </div>
+      </div>
+
+      <!-- WARENEINGANG -->
+      <section id="screen-wareneingang" class="screen">
         <div class="screen-bg">
           <img src="element.png" class="corner-visual" alt="" />
         </div>
 
         <div class="screen-content">
-          <h1>Zulieferer wählen</h1>
-
-          <div class="grid-2">
-            <button class="primary" type="button" onclick="selectSupplier('Regler Systems')">
-              Regler Systems
-            </button>
-
-            <button class="primary" type="button" onclick="selectSupplier('Weig')">
-              Weig
-            </button>
-
-            <button class="primary" type="button" onclick="selectSupplier('Tambrite')">
-              Tambrite
-            </button>
-
-            <button class="primary" type="button" onclick="selectSupplier('CrownBoard')">
-              CrownBoard
-            </button>
-          </div>
-
-          <div class="footer footer-single">
-            <button class="primary" type="button" onclick="goBackToStart()">Zurück</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- SCAN SCREEN -->
-      <section id="screen-scan" class="screen screen-scan">
-        <div class="screen-bg">
-          <img src="element.png" class="corner-visual" alt="" />
-        </div>
-
-        <div class="screen-content">
-          <h1 id="scanTitle">Regler Systems</h1>
+          <h1>Wareneingang</h1>
 
           <div class="top-meta">
-            <div class="status" id="status">Bitte Dokument scannen</div>
+            <div class="status" id="statusIncoming">Bitte Dokument scannen</div>
           </div>
 
           <div class="form-area">
@@ -108,7 +96,7 @@
                   class="field-action"
                   type="button"
                   aria-label="Dokument Barcode zurücksetzen"
-                  onclick="resetField('docBarcode')"
+                  onclick="resetIncomingField('docBarcode')"
                 >
                   ↻
                 </button>
@@ -129,7 +117,7 @@
                   class="field-action"
                   type="button"
                   aria-label="PID Code zurücksetzen"
-                  onclick="resetField('pidBarcode')"
+                  onclick="resetIncomingField('pidBarcode')"
                 >
                   ↻
                 </button>
@@ -137,26 +125,46 @@
             </div>
 
             <div class="field-group">
-              <label for="zeitstempel">Zeitstempel</label>
+              <label for="incomingLocation">Stellplatz</label>
               <div class="field-wrap">
-                <input id="zeitstempel" placeholder="Wird automatisch gesetzt" readonly />
+                <input
+                  id="incomingLocation"
+                  class="required-field"
+                  placeholder="Stellplatz scannen"
+                  autocomplete="off"
+                />
+                <button
+                  class="field-action"
+                  type="button"
+                  aria-label="Stellplatz zurücksetzen"
+                  onclick="resetIncomingField('incomingLocation')"
+                >
+                  ↻
+                </button>
               </div>
             </div>
 
             <div class="field-group">
-              <label>Abmessungen (mm)</label>
-              <div class="dimension-card">
-                <div class="triple-grid">
+              <label>Produkt Informationen</label>
+              <div class="product-card">
+                <div class="field-group product-supplier">
+                  <div class="mini-label">Zulieferer</div>
+                  <div class="field-wrap">
+                    <input id="supplierField" readonly />
+                  </div>
+                </div>
+
+                <div class="product-grid">
                   <div class="mini-field">
-                    <div class="mini-label">Höhe</div>
+                    <div class="mini-label">Sheets</div>
                     <div class="field-wrap field-wrap-mini">
-                      <input id="hoehe" class="editable-field" />
+                      <input id="sheets" class="editable-field" />
                       <button
-                        id="action-hoehe"
+                        id="action-sheets"
                         class="field-action"
                         type="button"
-                        aria-label="Höhe bearbeiten"
-                        onclick="toggleEditAction('hoehe')"
+                        aria-label="Sheets bearbeiten"
+                        onclick="toggleEditAction('sheets')"
                       >
                         ✎
                       </button>
@@ -194,35 +202,147 @@
                       </button>
                     </div>
                   </div>
+
+                  <div class="mini-field">
+                    <div class="mini-label">Netto Gewicht</div>
+                    <div class="field-wrap field-wrap-mini">
+                      <input id="nettoGewicht" class="editable-field" />
+                      <button
+                        id="action-nettoGewicht"
+                        class="field-action"
+                        type="button"
+                        aria-label="Netto Gewicht bearbeiten"
+                        onclick="toggleEditAction('nettoGewicht')"
+                      >
+                        ✎
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mini-field">
+                    <div class="mini-label">Brutto Gewicht</div>
+                    <div class="field-wrap field-wrap-mini">
+                      <input id="bruttoGewicht" class="editable-field" />
+                      <button
+                        id="action-bruttoGewicht"
+                        class="field-action"
+                        type="button"
+                        aria-label="Brutto Gewicht bearbeiten"
+                        onclick="toggleEditAction('bruttoGewicht')"
+                      >
+                        ✎
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mini-field">
+                    <div class="mini-label">Paletten Nummer</div>
+                    <div class="field-wrap field-wrap-mini">
+                      <input id="palettenNummer" class="editable-field" />
+                      <button
+                        id="action-palettenNummer"
+                        class="field-action"
+                        type="button"
+                        aria-label="Paletten Nummer bearbeiten"
+                        onclick="toggleEditAction('palettenNummer')"
+                      >
+                        ✎
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="field-group">
-              <label for="gewicht">Gewicht (kg)</label>
-              <div class="field-wrap">
-                <input id="gewicht" class="editable-field" />
-                <button
-                  id="action-gewicht"
-                  class="field-action"
-                  type="button"
-                  aria-label="Gewicht bearbeiten"
-                  onclick="toggleEditAction('gewicht')"
-                >
-                  ✎
-                </button>
-              </div>
+            <div class="footer footer-inline">
+              <button class="primary" type="button" onclick="resetIncomingForm()">Reset</button>
+              <button class="primary" type="button" onclick="bookIncoming()">Buchen</button>
             </div>
 
-            <div class="footer footer-inline">
-              <button class="primary" type="button" onclick="goBackToSupplier()">Zurück</button>
-              <button class="primary" type="button" onclick="book()">Buchen</button>
+            <div class="connection-status">
+              <span class="connection-text" id="connectionText">Verbunden</span>
+              <span class="connection-dot online" id="connectionDot"></span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SUCCESS SCREEN -->
+      <!-- UMBUCHUNG -->
+      <section id="screen-umbuchung" class="screen">
+        <div class="screen-bg">
+          <img src="element.png" class="corner-visual" alt="" />
+        </div>
+
+        <div class="screen-content">
+          <h1>Umbuchung</h1>
+
+          <div class="top-meta">
+            <div class="status" id="statusTransfer">Bitte PID scannen</div>
+          </div>
+
+          <div class="form-area">
+            <div class="field-group">
+              <label for="transferPidBarcode">PID Code</label>
+              <div class="field-wrap">
+                <input
+                  id="transferPidBarcode"
+                  class="required-field"
+                  placeholder="PID scannen"
+                  autocomplete="off"
+                  onchange="handleTransferPidScan(this.value)"
+                />
+                <button
+                  class="field-action"
+                  type="button"
+                  aria-label="PID Code zurücksetzen"
+                  onclick="resetTransferField('transferPidBarcode')"
+                >
+                  ↻
+                </button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="currentLocation">Aktueller Stellplatz</label>
+              <div class="field-wrap">
+                <input id="currentLocation" readonly />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="newLocation">Neuer Stellplatz</label>
+              <div class="field-wrap">
+                <input
+                  id="newLocation"
+                  class="required-field"
+                  placeholder="Neuen Stellplatz scannen"
+                  autocomplete="off"
+                />
+                <button
+                  class="field-action"
+                  type="button"
+                  aria-label="Neuen Stellplatz zurücksetzen"
+                  onclick="resetTransferField('newLocation')"
+                >
+                  ↻
+                </button>
+              </div>
+            </div>
+
+            <div class="footer footer-inline">
+              <button class="primary" type="button" onclick="resetTransferForm()">Reset</button>
+              <button class="primary" type="button" onclick="bookTransfer()">Buchen</button>
+            </div>
+
+            <div class="connection-status">
+              <span class="connection-text" id="connectionTextTransfer">Verbunden</span>
+              <span class="connection-dot online" id="connectionDotTransfer"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUCCESS -->
       <section id="screen-success" class="screen success-screen" onclick="closeSuccessScreen()">
         <div class="screen-bg">
           <img src="element.png" class="corner-visual success-corner" alt="" />
@@ -232,7 +352,7 @@
           <div class="success-circle">
             <span class="success-check">✓</span>
           </div>
-          <div class="success-text">Buchung erfolgreich</div>
+          <div class="success-text" id="successText">Buchung erfolgreich</div>
         </div>
       </section>
     </main>
