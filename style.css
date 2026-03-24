@@ -5,8 +5,7 @@
   --field-bg: #ffffff;
   --field-text: #1b1b1b;
   --field-placeholder: #6f6f6f;
-  --warning-yellow: #ffea00;
-  --warning-yellow-glow: rgba(255, 234, 0, 0.28);
+  --warning-yellow: #ffe600;
   --offline-red: #ff5a5a;
 }
 
@@ -36,7 +35,7 @@ body {
   height: 100svh;
   height: 100dvh;
   display: grid;
-  grid-template-rows: 68px 1fr;
+  grid-template-rows: 60px 1fr;
   overflow: hidden;
 }
 
@@ -59,16 +58,16 @@ body {
 }
 
 .logo {
-  height: 34px;
+  height: 30px;
   width: auto;
-  max-width: 170px;
+  max-width: 150px;
   object-fit: contain;
   display: block;
 }
 
 .menu-button {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   margin: 0;
   border-radius: 10px;
@@ -86,7 +85,7 @@ body {
 .menu-button span {
   display: block;
   width: 20px;
-  height: 2.5px;
+  height: 2px;
   background: var(--white);
   border-radius: 2px;
 }
@@ -94,7 +93,7 @@ body {
 .app-main {
   min-height: 0;
   overflow: hidden;
-  padding: 8px 14px 10px;
+  padding: 6px 12px 8px;
   max-width: 560px;
   width: 100%;
   margin: 0 auto;
@@ -133,18 +132,18 @@ body {
 
 h1 {
   text-align: center;
-  margin: 0 0 8px;
-  font-size: 22px;
+  margin: 0 0 6px;
+  font-size: 20px;
   line-height: 1.08;
   flex-shrink: 0;
 }
 
 button {
   width: 100%;
-  padding: 14px 14px;
+  padding: 12px 14px;
   border-radius: 14px;
   border: none;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
 }
 
@@ -156,8 +155,8 @@ button {
 
 label {
   display: block;
-  margin: 0 0 5px;
-  font-size: 14px;
+  margin: 0 0 4px;
+  font-size: 13px;
   opacity: 0.95;
 }
 
@@ -171,14 +170,14 @@ label {
 
 input {
   width: 100%;
-  min-height: 56px;
-  padding: 12px 48px 12px 14px;
+  min-height: 50px;
+  padding: 10px 42px 10px 12px;
   border-radius: 14px;
   border: 2px solid transparent;
   outline: none;
   background: var(--field-bg);
   color: var(--field-text);
-  font-size: 17px;
+  font-size: 16px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -200,13 +199,13 @@ input[readonly] {
   top: 50%;
   right: 8px;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border-radius: 8px;
   background: transparent;
   color: var(--brand-green);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1;
   display: flex;
@@ -219,19 +218,26 @@ input[readonly] {
 }
 
 .field-action-disabled {
-  opacity: 0.35;
+  opacity: 0.3;
   cursor: default;
   pointer-events: none;
 }
 
 .input-warning {
   border: 4px solid var(--warning-yellow) !important;
-  box-shadow: 0 0 0 3px var(--warning-yellow-glow) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+input.input-warning:focus {
+  border: 4px solid var(--warning-yellow) !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .action-confirm {
   color: var(--brand-green-dark);
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .top-meta {
@@ -241,7 +247,7 @@ input[readonly] {
 .status {
   text-align: center;
   margin-bottom: 8px;
-  font-size: 15px;
+  font-size: 14px;
   opacity: 0.98;
   min-height: 18px;
 }
@@ -257,14 +263,14 @@ input[readonly] {
 .footer {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
   flex-shrink: 0;
 }
 
 .footer button {
   flex: 1;
-  min-height: 56px;
-  font-size: 18px;
+  min-height: 52px;
+  font-size: 17px;
 }
 
 .footer-inline {
@@ -299,17 +305,17 @@ input[readonly] {
 }
 
 .field-wrap-mini input {
-  min-height: 48px;
-  padding: 8px 28px 8px 8px;
-  font-size: 14px;
+  min-height: 44px;
+  padding: 8px 26px 8px 8px;
+  font-size: 13px;
   border-radius: 12px;
 }
 
 .field-wrap-mini .field-action {
   right: 4px;
-  width: 24px;
-  height: 24px;
-  font-size: 14px;
+  width: 22px;
+  height: 22px;
+  font-size: 13px;
 }
 
 .connection-status {
@@ -340,56 +346,66 @@ input[readonly] {
   background: var(--offline-red);
 }
 
+/* Hintergrundgrafik */
 .corner-visual {
   position: absolute;
-  bottom: -70px;
-  right: -140px;
-  width: 760px;
+  bottom: -180px;
+  right: -260px;
+  width: 1200px;
   max-width: none;
-  opacity: 0.5;
+  opacity: 0.0;
   pointer-events: none;
   user-select: none;
   z-index: 0;
 }
 
+/* Splash */
 .splash-screen {
   justify-content: center;
   align-items: center;
 }
 
 .splash-content {
+  display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .splash-logo {
-  width: min(220px, 58vw);
-  max-width: 220px;
+  width: min(190px, 52vw);
+  max-width: 190px;
   height: auto;
   object-fit: contain;
   display: block;
 }
 
 .splash-corner {
-  bottom: -90px;
-  right: -150px;
-  width: 820px;
+  bottom: -190px;
+  right: -230px;
+  width: 1060px;
 }
 
+/* Success */
 .success-screen {
   justify-content: center;
   align-items: center;
 }
 
 .success-content {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 100%;
+  width: 100%;
 }
 
 .success-circle {
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 8px solid var(--warning-yellow);
   display: flex;
@@ -400,23 +416,23 @@ input[readonly] {
 
 .success-check {
   color: var(--warning-yellow);
-  font-size: 62px;
+  font-size: 56px;
   font-weight: 700;
   line-height: 1;
 }
 
 .success-text {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .success-corner {
-  bottom: -70px;
-  right: -150px;
-  width: 780px;
+  bottom: -170px;
+  right: -220px;
+  width: 1000px;
 }
 
-/* Fullscreen menu */
+/* Fullscreen Menü */
 .menu-overlay {
   position: absolute;
   inset: 0;
@@ -463,7 +479,7 @@ input[readonly] {
 .menu-item {
   background: var(--white);
   color: var(--brand-green);
-  min-height: 64px;
+  min-height: 58px;
   font-weight: 700;
   text-align: left;
   padding: 0 18px;
@@ -471,90 +487,4 @@ input[readonly] {
 
 .menu-item.disabled {
   opacity: 0.55;
-}
-
-@media (max-height: 820px) {
-  .app-shell {
-    grid-template-rows: 60px 1fr;
-  }
-
-  .logo {
-    height: 30px;
-    max-width: 150px;
-  }
-
-  .menu-button {
-    width: 38px;
-    height: 38px;
-  }
-
-  .app-main {
-    padding: 6px 12px 8px;
-  }
-
-  h1 {
-    font-size: 20px;
-    margin-bottom: 6px;
-  }
-
-  .status {
-    font-size: 14px;
-  }
-
-  label {
-    font-size: 13px;
-  }
-
-  input {
-    min-height: 50px;
-    font-size: 16px;
-  }
-
-  .field-action {
-    width: 30px;
-    height: 30px;
-    font-size: 17px;
-  }
-
-  .field-wrap-mini input {
-    min-height: 44px;
-    font-size: 13px;
-  }
-
-  .footer {
-    margin-top: 8px;
-  }
-
-  .footer button {
-    min-height: 52px;
-    font-size: 17px;
-  }
-
-  .corner-visual {
-    width: 620px;
-    right: -130px;
-    bottom: -65px;
-  }
-
-  .splash-logo {
-    width: min(190px, 52vw);
-    max-width: 190px;
-  }
-
-  .splash-corner {
-    width: 680px;
-    right: -130px;
-    bottom: -80px;
-  }
-
-  .success-corner {
-    width: 640px;
-    right: -130px;
-    bottom: -60px;
-  }
-
-  .menu-item {
-    min-height: 58px;
-    font-size: 17px;
-  }
 }

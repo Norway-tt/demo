@@ -246,7 +246,7 @@ function handleDocumentScan(code) {
   if (!normalized) {
     booking.supplierMatched = false;
     setWarning("docBarcode");
-    setIncomingStatus("Bitte Dokument Barcode scannen.");
+    setIncomingStatus("Bitte Customer Code scannen.");
     focusIncomingDoc();
     return;
   }
